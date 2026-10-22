@@ -25,3 +25,10 @@ models/
 *.gguf
 *.onnx
 Commande_git.md
+InfosDiverses.md
+CONTRATS.md
+resultats/
+agent/resultats/
+agent/resultats/cache/
+*.pyc
+message_equipe.md
