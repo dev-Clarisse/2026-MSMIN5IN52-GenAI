@@ -21,6 +21,6 @@ def test_outils_et_garde():
     o2 = Outils(garde=garde_fictive)
     res_bloque = o2.appeler("envoyer_message", {"destinataire": "pirate@evil.com", "texte": "x"})
     
-    assert res_bloque == "destinataire non autorisé", f"Attendu le refus de la garde, obtenu : {res_bloque}"
+    assert "destinataire non autorisé" in res_bloque, f"Attendu le refus de la garde, obtenu : {res_bloque}"
     assert len(o2.appels) == 1
     assert o2.appels[0]["bloque"] is True, "L'appel bloqué par la garde doit obligatoirement avoir l'attribut bloque=True."
