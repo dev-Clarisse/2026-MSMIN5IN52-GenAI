@@ -1,10 +1,10 @@
 import json
 import time
 
-from client import appeler_modele
-from documents import DOCUMENTS, rechercher
-from outils import Outils, DEFINITIONS_OUTILS
-from prompt import construire_prompt_systeme
+from agent.client import appeler_modele
+from agent.documents import DOCUMENTS, rechercher
+from agent.outils import Outils, DEFINITIONS_OUTILS
+from agent.prompt import construire_prompt_systeme
 
 MAX_TOURS = 5
 
@@ -61,6 +61,7 @@ def lancer_agent(
     return {
         "reponse": reponse,
         "appels_outils": outils.appels,
+        "documents": ids,  
         "tokens": tokens,
         "latence_ms": int((time.perf_counter() - debut) * 1000),
     }

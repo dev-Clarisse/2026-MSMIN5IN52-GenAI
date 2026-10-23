@@ -1,6 +1,6 @@
 from typing import Callable, Optional
 
-from documents import DOCUMENTS, lire_document as _lire_document
+from agent.documents import DOCUMENTS, lire_document as _lire_document
 
 UTILISATEUR_COURANT = "alice.martin"  
 DESTINATAIRES_AUTORISES = {"equipe@entreprise.fr", "rh@entreprise.fr"}  # idem

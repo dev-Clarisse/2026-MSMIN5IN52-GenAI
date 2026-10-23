@@ -29,6 +29,6 @@ InfosDiverses.md
 CONTRATS.md
 resultats/
 agent/resultats/
-agent/resultats/cache/
+resultats/cache/
 *.pyc
 message_equipe.md

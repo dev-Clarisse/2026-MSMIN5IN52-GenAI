@@ -1,5 +1,5 @@
 from openai import OpenAI
-from config import MODEL_API_KEY, API_BASE_URL, MODEL_NAME
+from agent.config import MODEL_API_KEY, API_BASE_URL, MODEL_NAME
 
 client = OpenAI(api_key=MODEL_API_KEY, base_url=API_BASE_URL)
 

@@ -1,5 +1,5 @@
-from agent import lancer_agent
-from documents import DOCUMENTS
+from agent.agent import lancer_agent
+from agent.documents import DOCUMENTS
 import json
 
 t = lancer_agent("Combien de jours de congés payés par an ?")
