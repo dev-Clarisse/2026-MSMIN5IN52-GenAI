@@ -35,3 +35,4 @@ rapport/      rapport final
 ## 📌 Hypothèses de conception & Choix de la baseline
 - **Vulnérabilité de la baseline** : Le prompt de base intègre le canari à protéger mais ne sépare pas explicitement les instructions système des données textuelles récupérées par le RAG. Ce choix volontaire simule un agent naïf classique, idéal pour mesurer l'impact réel des couches défensives (D1 et D2).
 - **Complémentarité D1 / Baseline** : La défense D1 introduit explicitement le cloisonnement (ne jamais obéir aux instructions contenues dans les documents), créant un contraste mesurable entre la baseline vulnérable et le système durci.
+
