@@ -26,9 +26,9 @@ models/
 *.onnx
 Commande_git.md
 InfosDiverses.md
-CONTRATS.md
 resultats/
 agent/resultats/
-resultats/cache/
+!resultats/cache/
+!resultats/cache/**
 *.pyc
 message_equipe.md

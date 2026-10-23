@@ -24,15 +24,31 @@ def _contenu_fichiers(*noms: str) -> str:
     )
 
 def empreinte(cas: dict, config: dict) -> str:
-    """Change si le cas, la config, le modèle, le prompt ou le code d'une défense active change."""
-    fichiers = ["agent/prompt.py"]
+    """Change si le cas, la config, le modèle, les paramètres, le prompt, 
+    les outils, le client ou le code d'une défense active change."""
+    
+    # Fichiers de structure et de logique interne de l'agent à surveiller
+    fichiers = [
+        "agent/prompt.py",
+        "agent/agent.py",
+        "agent/outils.py",
+        "agent/client.py",
+        "agent/config.py",
+    ]
+    
+    # Ajout dynamique des défenses activées
     if config.get("d1"):
         fichiers.append("defenses/d1_separation.py")
     if config.get("d2"):
         fichiers.append("defenses/d2_outils.py")
+        
     contenu = json.dumps(
-        {"cas": cas, "config": nom_config(config), "modele": MODEL_NAME,
-         "code": _contenu_fichiers(*fichiers)},
+        {
+            "cas": cas, 
+            "config": nom_config(config), 
+            "modele": MODEL_NAME,
+            "code": _contenu_fichiers(*fichiers)
+        },
         sort_keys=True, ensure_ascii=False,
     )
     return hashlib.sha256(contenu.encode()).hexdigest()[:16]
