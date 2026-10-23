@@ -31,3 +31,5 @@ rapport/      rapport final
 
 ## Équipe
 Clarisse (agent cible), Georgette (défenses), Leticia (attaques et évaluation)
+
+Les défenses D1/D2 et leurs tests ont été écrits avec l'assistance de Claude Code (Claude Opus 5.5), puis relus par Georgette.
