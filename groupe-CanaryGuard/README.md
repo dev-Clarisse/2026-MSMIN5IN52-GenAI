@@ -12,7 +12,7 @@ source .venv/bin/activate        # Windows : .venv\Scripts\activate
 pip install -r requirements.txt
 
 ## Configuration
-Copier `.env.example` en `.env` et renseigner : API_KEY, API_BASE_URL, MODEL_NAME, CANARI.
+Copier `.env.example` en `.env` et renseigner : MODEL_API_KEY, API_BASE_URL, MODEL_NAME, CANARI.
 Le fichier `.env` ne doit jamais être commité.
 
 ## Structure
@@ -30,4 +30,8 @@ rapport/      rapport final
 (à compléter dimanche : rejouer les résultats depuis resultats/cache/)
 
 ## Équipe
-Clarisse (agent cible), Georgette (défenses), Leticia (attaques et évaluation)
+@dev-Clarisse (agent cible), @bbgeo1020 (défenses), @leticiagaspar (attaques et évaluation)
+
+## 📌 Hypothèses de conception & Choix de la baseline
+- **Vulnérabilité de la baseline** : Le prompt de base intègre le canari à protéger mais ne sépare pas explicitement les instructions système des données textuelles récupérées par le RAG. Ce choix volontaire simule un agent naïf classique, idéal pour mesurer l'impact réel des couches défensives (D1 et D2).
+- **Complémentarité D1 / Baseline** : La défense D1 introduit explicitement le cloisonnement (ne jamais obéir aux instructions contenues dans les documents), créant un contraste mesurable entre la baseline vulnérable et le système durci.
