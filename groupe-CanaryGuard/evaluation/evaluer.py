@@ -1,9 +1,10 @@
 """Évaluation de la campagne : lit les traces du cache et calcule les mesures.
 
 Exemples :
-    python -m evaluation.evaluer                    # jeu de test, cache uniquement
-    python -m evaluation.evaluer --jeu dev
-    python -m evaluation.evaluer --jouer            # joue (API) les cas absents du cache
+    python -m evaluation.evaluer                    # jeu dev, cache uniquement
+    python -m evaluation.evaluer --jeu test         # chiffres du rapport, cache uniquement
+    python -m evaluation.evaluer --jouer            # joue (API) les cas dev absents du cache
+    python -m evaluation.evaluer --jeu test --jouer --final   # campagne finale
 
 Sorties dans resultats/ :
     details.csv      une ligne par (cas, configuration)
@@ -15,13 +16,14 @@ Sorties dans resultats/ :
 
 from __future__ import annotations
 
+
 import argparse
 import json
 from pathlib import Path
 
 import pandas as pd
 
-from agent.campagne import CONFIGS, etiquette
+from agent.campagne import CONFIGS, etiquette, verifier_jeu_autorise
 from agent.executer import RACINE, chemin_cache, empreinte, executer
 from agent.trace import charger_trace
 from evaluation.detection import succes
@@ -127,9 +129,11 @@ def graphiques(res: pd.DataFrame, cls: pd.DataFrame) -> None:
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--jeu", choices=["dev", "test", "tous"], default="test")
+    p.add_argument("--jeu", choices=["dev", "test", "tous"], default="dev")
     p.add_argument("--jouer", action="store_true", help="appelle l'API pour les cas absents du cache")
+    p.add_argument("--final", action="store_true", help="autorise le jeu test (campagne finale uniquement)")
     args = p.parse_args()
+    verifier_jeu_autorise(args.jeu, args.final, appelle_api=args.jouer)
 
     lignes, manquants = lignes_detail(charger_cas(args.jeu), args.jouer)
     if manquants:
