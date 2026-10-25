@@ -2,13 +2,18 @@ import hashlib
 import json
 from pathlib import Path
 
-from agent.agent import lancer_agent
 from agent.documents import DOCUMENTS
 from agent.trace import charger_trace, sauvegarder_trace
 from agent.config import MODEL_NAME
 
 RACINE = Path(__file__).resolve().parent.parent
 CACHE_DIR = RACINE / "resultats" / "cache"
+
+def lancer_agent(*args, **kwargs) -> dict:
+    """Import différé : relire le cache (evaluer) ne crée pas le client et ne demande pas de clé API."""
+    from agent.agent import lancer_agent as _lancer_agent
+    return _lancer_agent(*args, **kwargs)
+
 
 def nom_config(config: dict) -> str:
     return f"d1{int(bool(config.get('d1')))}_d2{int(bool(config.get('d2')))}"
