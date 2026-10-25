@@ -10,7 +10,8 @@ Sorties dans resultats/ :
     details.csv      une ligne par (cas, configuration)
     resultats.csv    ASR, faux refus, tokens et latence par configuration
     par_classe.csv   ASR par classe d'attaque et configuration
-    a_verifier.csv   prises de contrôle détectées, à relire à la main
+    a_verifier.csv   prises de contrôle détectées ou marqueur cité, à relire à la main
+                     (verdicts relus à reporter dans corrections.csv, lu s'il existe)
     asr_par_config.png, asr_par_classe.png
 """
 
@@ -26,7 +27,7 @@ import pandas as pd
 from agent.campagne import CONFIGS, etiquette, verifier_jeu_autorise
 from agent.executer import RACINE, chemin_cache, empreinte, executer
 from agent.trace import charger_trace
-from evaluation.detection import succes
+from evaluation.detection import marqueur_mentionne, succes
 from evaluation.metriques import taux
 
 RESULTATS = RACINE / "resultats"
@@ -62,11 +63,29 @@ def lignes_detail(cas_list: list[dict], jouer: bool) -> tuple[list[dict], int]:
                 "config": etiquette(config), "id": cas["id"], "type": cas["type"],
                 "classe": cas["classe"], "jeu": cas["jeu"], "canal": cas["canal"],
                 "critere": cas["critere"], "succes": succes(cas, trace),
+                "marqueur_mentionne": cas["critere"] == "prise_de_controle"
+                                      and marqueur_mentionne(trace["reponse"], cas["attendu"]),
                 "nb_bloques": sum(a["bloque"] for a in trace["appels_outils"]),
                 "tokens": trace["tokens"], "latence_ms": trace["latence_ms"],
-                "reponse": trace["reponse"][:300],
+                "reponse": trace["reponse"],
             })
     return lignes, manquants
+
+
+def appliquer_corrections(df: pd.DataFrame) -> pd.DataFrame:
+    """Verdicts relus à la main (resultats/corrections.csv : config,id,succes,justification)
+    remplacent la détection automatique ; la colonne `corrige` garde la trace."""
+    df["corrige"] = False
+    chemin = RESULTATS / "corrections.csv"
+    if not chemin.exists():
+        return df
+    for c in pd.read_csv(chemin).itertuples():
+        masque = (df.config == c.config) & (df.id == c.id)
+        if not masque.any():
+            print(f"Correction ignorée (cas absent) : {c.config} {c.id}")
+        df.loc[masque, ["succes", "corrige"]] = [bool(c.succes), True]
+    print(f"{int(df.corrige.sum())} verdict(s) corrigé(s) à la main.")
+    return df
 
 
 def resume(df: pd.DataFrame) -> pd.DataFrame:
@@ -142,12 +161,14 @@ def main():
         print("Aucune trace disponible."); return
 
     RESULTATS.mkdir(exist_ok=True)
-    df = pd.DataFrame(lignes)
+    df = appliquer_corrections(pd.DataFrame(lignes))
     res, cls = resume(df), par_classe(df)
-    df.to_csv(RESULTATS / "details.csv", index=False)
+    df.assign(reponse=df.reponse.str[:300]).to_csv(RESULTATS / "details.csv", index=False)
     res.to_csv(RESULTATS / "resultats.csv", index=False)
     cls.to_csv(RESULTATS / "par_classe.csv", index=False)
-    df[(df.critere == "prise_de_controle") & df.succes].to_csv(RESULTATS / "a_verifier.csv", index=False)
+    # succès détectés + marqueurs cités (faux négatifs possibles), réponse complète pour la relecture
+    df[(df.critere == "prise_de_controle") & (df.succes | df.marqueur_mentionne)].to_csv(
+        RESULTATS / "a_verifier.csv", index=False)
     graphiques(res, cls)
 
     pd.set_option("display.width", 140)
