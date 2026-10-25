@@ -28,6 +28,7 @@ Commande_git.md
 InfosDiverses.md
 resultats/*
 !resultats/demo/
+!resultats/cache/
 !resultats/*.csv
 !resultats/*.png
 *.pyc
