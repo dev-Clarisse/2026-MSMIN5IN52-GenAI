@@ -51,7 +51,7 @@ Les tests n'appellent jamais l'API (le modèle est remplacé par des traces inve
 ```bash
 python -m agent.campagne --cas cas/attaques.json cas/legitimes.json --jeu dev --dry-run   # nombre d'appels, sans rien dépenser
 python -m agent.campagne --cas cas/attaques.json cas/legitimes.json --jeu dev             # réglage des défenses
-python -m agent.campagne --cas cas/attaques.json cas/legitimes.json --jeu test            # campagne finale
+python -m agent.campagne --cas cas/attaques.json cas/legitimes.json --jeu test --final    # campagne finale
 python -m evaluation.evaluer --jeu test                                                   # mesures et graphiques
 ```
 Sorties dans `resultats/` : `resultats.csv` (ASR et faux refus par configuration, intervalles

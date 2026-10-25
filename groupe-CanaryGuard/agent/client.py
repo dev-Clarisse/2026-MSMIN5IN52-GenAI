@@ -10,7 +10,7 @@ def appeler_modele(messages: list, outils: list | None = None):
         model=MODEL_NAME,
         messages=messages,
         temperature=0,  
-        extra_body={"enable_thinking": False},  
+        extra_body={"reasoning": {"enabled": False}},  # syntaxe OpenRouter
     )
     if outils:
         kwargs["tools"] = outils
