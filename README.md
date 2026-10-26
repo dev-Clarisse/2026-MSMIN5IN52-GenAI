@@ -15,7 +15,7 @@ Le cours comporte six séances. Le projet est réalisé progressivement et doit 
 ## Démarrage rapide
 
 1. Constituez un groupe — **3 personnes est le format standard**.
-2. Choisissez un sujet dans le [catalogue 2026](docs/CATALOGUE.md), puis [réservez-le par une issue](https://github.com/jsboigeEPF/2026-MSMIN5IN52-GenAI/issues/new?template=inscription-groupe.yml). Un sujet ne peut être réservé que par un groupe.
+2. Choisissez un sujet dans le [catalogue 2026](docs/CATALOGUE.md), puis inscrivez le groupe et ses vœux dans le **classeur d'inscription** du cours (lien transmis par l'enseignant). Un sujet n'est attribué qu'à un groupe ; le classeur fait foi.
 3. Forkez ce dépôt sur le compte d'un membre du groupe.
 4. Créez un dossier unique à la racine, nommé `groupe-<nom-court>`.
 5. Copiez le contenu de [`template-groupe/`](template-groupe/) dans ce dossier.
@@ -62,9 +62,9 @@ Chaque groupe fournit au minimum :
 
 - le code source et des instructions reproductibles ;
 - un `README.md` complet ;
-- un notebook explicatif avec analyses et visualisations **ou** une interface/démonstration fonctionnelle ;
-- des tests adaptés au projet ;
-- les slides de soutenance ;
+- une interface/démonstration fonctionnelle **ou** un notebook explicatif qui montre le système en action ;
+- des tests quand le sujet s'y prête (un plus, pas une obligation) ;
+- les slides de soutenance (elles peuvent suivre dans une PR complémentaire) ;
 - un fichier `.env.example` sans valeur secrète ;
 - un historique Git montrant la participation des membres.
 
