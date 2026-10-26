@@ -188,19 +188,27 @@ réseau pendant la démonstration.
 - **Un seul modèle** testé : les résultats ne se généralisent pas automatiquement.
 - **D2 ne protège que les actions** : une fuite vers un destinataire autorisé (cas `fui_10`) ou
   une information fausse dans le texte de la réponse (ind_10) ne sont pas bloquées.
+- **D1 ne couvre que les documents trouvés par la recherche** : le texte renvoyé par l'outil
+  `lire_document` arrive dans le message `tool` sans balises. D1 reste en outre une consigne :
+  c'est le modèle qui décide de la suivre.
 
 ## Équipe et contributions
 - @dev-Clarisse : agent cible (RAG, outils simulés, canari, traces, cache, campagne), réglage sur le
   jeu dev, réécriture des 23 attaques par document à partir du corpus de Leticia, relecture manuelle
   et analyse des résultats
-- @bbgeo1020 : défenses D1 et D2
+- @bbgeo1020 : défenses D1 (balisage des documents, échappement des balises forgées, décodage de
+  l'Unicode invisible) et D2 (garde des outils, refus par défaut, pas de filtre sur `doc_piege` pour
+  éviter une mesure circulaire) ; 45 tests sans API, dont 3 tests d'intégration avec un faux modèle
+  branché dans le vrai agent ; `tests/conftest.py` pour faire tourner la suite sans `.env`
 - @leticiagaspar : corpus d'attaques et de requêtes légitimes, détection, évaluation
 
 Un assistant IA (Claude, Anthropic) a été utilisé pendant le développement : diagnostic de la
 baseline invulnérable, proposition de réécriture des attaques par document, relecture manuelle
 étendue (`a_verifier.csv`, `corrections.csv`), import différé du client pour la reproduction sans
-API, rédaction de ce README. Les commits concernés portent la mention `Co-Authored-By`. Le code et
-les textes ont été relus et validés par l'équipe.
+API, rédaction de ce README. Les commits concernés portent la mention `Co-Authored-By`. Les
+défenses D1/D2 et leurs tests ont aussi été écrits avec l'assistance de Claude Code (Claude Opus
+5.5), puis relus par @bbgeo1020 ; leur commit (`7fce9b7`) ne porte pas la mention, la contribution
+est donc déclarée ici. Le code et les textes ont été relus et validés par l'équipe.
 
 ## Licences et références
 
