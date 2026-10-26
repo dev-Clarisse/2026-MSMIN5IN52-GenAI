@@ -53,7 +53,9 @@ Modèle : `qwen/qwen3.8-flash` via OpenRouter, température 0, mode thinking dé
 ```bash
 pytest
 ```
-82 tests. Ils n'appellent jamais l'API (le modèle est remplacé par des traces inventées).
+86 tests. Ils n'appellent jamais l'API (le modèle est remplacé par des traces inventées).
+Les modes d'échec (API indisponible, délai dépassé, réponse invalide) sont couverts par
+`tests/test_modes_echec.py` : aucune trace n'est mise en cache et la campagne continue.
 
 ## Lancement de la campagne
 ```bash
@@ -199,6 +201,30 @@ baseline invulnérable, proposition de réécriture des attaques par document, r
 étendue (`a_verifier.csv`, `corrections.csv`), import différé du client pour la reproduction sans
 API, rédaction de ce README. Les commits concernés portent la mention `Co-Authored-By`. Le code et
 les textes ont été relus et validés par l'équipe.
+
+## Licences et références
+
+### Licences
+- **Code** : licence MIT du dépôt du cours (fichier `LICENSE` à la racine).
+- **Données** : documents de l'intranet, comptes et adresses entièrement fictifs, écrits par
+  l'équipe. Aucune donnée personnelle réelle.
+- **Modèle** : Qwen3.8 Flash, appelé via l'API OpenRouter selon les conditions d'utilisation du
+  fournisseur. Aucun poids de modèle n'est redistribué ; seules les réponses sont versionnées
+  dans `resultats/cache/` pour la reproductibilité.
+- **Bibliothèques** : openai (Apache-2.0), python-dotenv (BSD-3-Clause), pandas (BSD-3-Clause),
+  matplotlib (licence Matplotlib, basée sur la PSF), pytest (MIT).
+
+### Références
+Utilisées dans le projet :
+- OWASP, *LLM01 : Prompt Injection* (injection directe et indirecte) — https://genai.owasp.org/llmrisk/llm01-prompt-injection/
+- E. B. Wilson (1927), « Probable inference, the law of succession, and statistical inference »,
+  *Journal of the American Statistical Association*, 22(158), 209-212 (intervalles de confiance).
+
+Références proposées par le sujet H1 :
+- MITRE ATLAS — https://atlas.mitre.org/
+- NIST, *AI Risk Management Framework* — https://www.nist.gov/itl/ai-risk-management-framework
+- CoursIA, notebooks [Prompt Security Red Team](https://github.com/jsboige/CoursIA/blob/main/MyIA.AI.Notebooks/GenAI/Texte/09b_Prompt_Security_RedTeam.ipynb)
+  et [Function Calling](https://github.com/jsboige/CoursIA/blob/main/MyIA.AI.Notebooks/GenAI/Texte/04_Function_Calling.ipynb).
 
 ## Hypothèses de conception et choix de la baseline
 - **Vulnérabilité de la baseline** : le prompt de base intègre le canari à protéger mais ne contient
